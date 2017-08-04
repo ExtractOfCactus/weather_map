@@ -92,6 +92,9 @@ var renderCity = function(select, city) {
 
 
 var app = function() {
+  var center = {lat: 51.5074, lng: -0.13};
+  var mapDiv = document.querySelector("#weather-map");
+  var weatherMap = new MapWrapper(mapDiv, center, 10);
 
   var citiesSelect = document.createElement("select");
   var body = document.querySelector("body");
@@ -115,7 +118,8 @@ var app = function() {
     }
   }, 0);
 
-  citiesSelect.addEventListener("change", cityInfo)
+
+  citiesSelect.addEventListener("change", cityInfo);
 }
 
 
