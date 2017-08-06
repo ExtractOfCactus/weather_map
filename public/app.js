@@ -43,21 +43,30 @@ var saveCity = function(city) {
 
 
 var populateList = function(city) {
-  var mapDiv = document.querySelector("#weather-map");
   weatherMap.googleMap.setCenter(cityCoords(city));
   weatherMap.addMarker(cityCoords(city));
 
-  var ul = document.createElement("ul");
-  ul.classList.add("weather-list");
   var bodyTag = document.querySelector("body");
   resetUl(bodyTag);
-  
-  var liTemp = createTempLi(city);
-  var liWeather = createWeatherLi(city);
+
+  var ul = populateHelper(0, city);
+  var ul24 = populateHelper(8, city);
+
+  bodyTag.appendChild(ul);
+  bodyTag.appendChild(ul24);
+}
+
+var populateHelper = function(index, city) {
+  var ul = document.createElement("ul");
+  ul.classList.add("weather-list");
+   
+  var liTemp = createTempLi(index, city);
+  var liWeather = createWeatherLi(index, city);
   
   ul.appendChild(liTemp);
   ul.appendChild(liWeather);
-  bodyTag.appendChild(ul);
+
+  return ul;
 }
 
 var resetUl = function(bodyTag) {
@@ -67,20 +76,19 @@ var resetUl = function(bodyTag) {
   })
 }
 
-var createTempLi = function(city) {
+var createTempLi = function(index, city) {
   var li = document.createElement('li');
   li.classList.add("list-item");
-  li.innerText = "Temperature: "+Math.round((city.list[0].main.temp - 273.15))+"°C";
+  li.innerText = "Temperature: "+Math.round((city.list[index].main.temp - 273.15))+"°C";
   return li;
 }
 
-var createWeatherLi = function(city) {
+var createWeatherLi = function(index, city) {
   var li = document.createElement("li");
   li.classList.add("list-item");
-  li.innerText = "Weather: "+city.list[0].weather[0].description;
+  li.innerText = "Weather: "+city.list[index].weather[0].description;
   return li;
 }
-
 
 
 var renderCity = function(select, city) {
@@ -121,8 +129,6 @@ var app = function() {
     body.appendChild(citiesSelect);
   }, 0);
 
- 
-
   setTimeout(function() {
     var jsonString = localStorage.getItem("lastCity");
     var lastCity = JSON.parse(jsonString) || [];
@@ -132,9 +138,7 @@ var app = function() {
     }
   }, 0);
 
-
   citiesSelect.addEventListener("change", cityInfo);
-  // citiesSelect.addEventListener("change", changeMapLocation);
 }
 
 
