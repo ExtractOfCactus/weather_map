@@ -1,7 +1,7 @@
 var britishCities = [];
 var cityId;
 var cityCoord;
-// var weatherMap;
+var weatherMap;
 
 var cityInfo = function() {
   var value = this.value;
@@ -44,7 +44,7 @@ var saveCity = function(city) {
 
 var populateList = function(city) {
   var mapDiv = document.querySelector("#weather-map");
-  var weatherMap = new MapWrapper(mapDiv, cityCoords(city), 10);
+  weatherMap.googleMap.setCenter(cityCoords(city));
 
   var ul = document.createElement("ul");
   ul.classList.add("weather-list");
@@ -83,9 +83,6 @@ var createWeatherLi = function(city) {
 
 
 var renderCity = function(select, city) {
-  
-  // weatherMap.setCenter(cityCoords(city));
-  
   setTimeout(function() {
     var option = document.createElement("option");
     option.innerText = city.name;
@@ -105,6 +102,8 @@ var cityCoords = function(city) {
 
 var app = function() {
   var center = {lat: 51.5074, lng: -0.13};
+  var mapDiv = document.querySelector("#weather-map");
+  weatherMap = new MapWrapper(mapDiv, center, 10);
   
 
   var citiesSelect = document.createElement("select");
