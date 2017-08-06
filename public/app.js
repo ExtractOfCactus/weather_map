@@ -1,13 +1,17 @@
 var britishCities = [];
 var cityId;
+var cityCoord;
+// var weatherMap;
 
 var cityInfo = function() {
   var value = this.value;
   britishCities.forEach(function(city) {
     if (city.name === value) {
       cityId = city.id;
+      cityCoord = city.coord;
     }
   });
+
   console.log(cityId);
   makeRequest(cityId, requestComplete);
 }
@@ -39,6 +43,9 @@ var saveCity = function(city) {
 
 
 var populateList = function(city) {
+  var mapDiv = document.querySelector("#weather-map");
+  var weatherMap = new MapWrapper(mapDiv, cityCoords(city), 10);
+
   var ul = document.createElement("ul");
   ul.classList.add("weather-list");
   var bodyTag = document.querySelector("body");
@@ -73,15 +80,12 @@ var createWeatherLi = function(city) {
   return li;
 }
 
-// var createListItems = function() {
-//   var liArray = [];
-//   var li
-// }
-
-
 
 
 var renderCity = function(select, city) {
+  
+  // weatherMap.setCenter(cityCoords(city));
+  
   setTimeout(function() {
     var option = document.createElement("option");
     option.innerText = city.name;
@@ -90,11 +94,18 @@ var renderCity = function(select, city) {
 }
 
 
+var cityCoords = function(city) {
+  var latLng = {
+    lat: city.city.coord.lat,
+    lng: city.city.coord.lon
+  }
+  return latLng;
+}
+
 
 var app = function() {
   var center = {lat: 51.5074, lng: -0.13};
-  var mapDiv = document.querySelector("#weather-map");
-  var weatherMap = new MapWrapper(mapDiv, center, 10);
+  
 
   var citiesSelect = document.createElement("select");
   var body = document.querySelector("body");
@@ -110,16 +121,20 @@ var app = function() {
     body.appendChild(citiesSelect);
   }, 0);
 
+ 
+
   setTimeout(function() {
     var jsonString = localStorage.getItem("lastCity");
     var lastCity = JSON.parse(jsonString) || [];
     if (lastCity.length !== 0) {
+      savedCity = lastCity;
       populateList(lastCity);
     }
   }, 0);
 
 
   citiesSelect.addEventListener("change", cityInfo);
+  // citiesSelect.addEventListener("change", changeMapLocation);
 }
 
 
