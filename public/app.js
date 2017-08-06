@@ -45,6 +45,7 @@ var saveCity = function(city) {
 var populateList = function(city) {
   var mapDiv = document.querySelector("#weather-map");
   weatherMap.googleMap.setCenter(cityCoords(city));
+  weatherMap.addMarker(cityCoords(city));
 
   var ul = document.createElement("ul");
   ul.classList.add("weather-list");

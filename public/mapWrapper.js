@@ -6,6 +6,10 @@ var MapWrapper = function(container, coords, zoom) {
   this.markers = [];
 }
 
-MapWrapper.prototype.method_name = function(first_argument) {
-  // body...
+MapWrapper.prototype.addMarker = function(coords) {
+  var marker = new google.maps.Marker({
+    position: coords,
+    map: this.googleMap
+  });
+  this.markers.push(marker);
 };
