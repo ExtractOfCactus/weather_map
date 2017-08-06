@@ -49,14 +49,21 @@ var populateList = function(city) {
   var bodyTag = document.querySelector("body");
   resetUl(bodyTag);
 
-  var ul = populateHelper(0, city);
-  var ul24 = populateHelper(8, city);
+  var h2 = document.createElement("h2");
+  h2.innerText = "Weather for " + city.city.name;
+  bodyTag.appendChild(h2);
 
-  bodyTag.appendChild(ul);
-  bodyTag.appendChild(ul24);
+  populateHelper("Current weather", 0, city);
+
+  populateHelper("24 hour forecast", 8, city);
+
+  populateHelper("48 hour forecast", 16, city);
 }
 
-var populateHelper = function(index, city) {
+var populateHelper = function(string, index, city) {
+  var h3 = document.createElement("h3");
+  h3.classList.add("forecast-heading")
+  h3.innerText = string;
   var ul = document.createElement("ul");
   ul.classList.add("weather-list");
    
@@ -66,14 +73,20 @@ var populateHelper = function(index, city) {
   ul.appendChild(liTemp);
   ul.appendChild(liWeather);
 
-  return ul;
+  var bodyTag = document.querySelector("body");
+  bodyTag.appendChild(h3);
+  bodyTag.appendChild(ul);
 }
 
 var resetUl = function(bodyTag) {
   var allUlItems = document.querySelectorAll(".weather-list");
   allUlItems.forEach(function(ulItem) {
     bodyTag.removeChild(ulItem);
-  })
+  });
+  var allH3Items = document.querySelectorAll(".forecast-heading");
+  allH3Items.forEach(function(h3Item) {
+    bodyTag.removeChild(h3Item);
+  });
 }
 
 var createTempLi = function(index, city) {

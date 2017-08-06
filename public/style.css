@@ -2,3 +2,7 @@
   height: 500px;
   width: 500px;
 }
+
+.weather-list {
+  padding-bottom: 20px;
+}
